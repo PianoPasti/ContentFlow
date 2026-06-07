@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContentFlow — AI Social Media Post Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f0ede4; color: #1a1a1a; min-height: 100vh; }
+  header { text-align: center; padding: 2rem 1rem 1.5rem; }
+  .logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
+  .logo-icon { width: 42px; height: 42px; background: #1a56db; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .logo-icon i { font-size: 22px; color: #e8f0fe; }
+  .logo h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #1e3a6e; }
+  .tagline { font-size: 14px; color: #6b7aa0; letter-spacing: 0.03em; }
+  .wrap { max-width: 580px; margin: 0 auto; padding: 0 1rem 3rem; }
+  .card { background: #fff; border-radius: 20px; padding: 1.25rem 1.5rem; margin-bottom: 12px; border: 1px solid #e2ddd4; }
+  .card-label { font-size: 11px; font-weight: 500; color: #9a9688; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 8px 16px; border-radius: 30px; border: 1.5px solid #d8d3c8; background: transparent; font-size: 13px; font-family: 'DM Sans', sans-serif; color: #4a4a3a; cursor: pointer; transition: all 0.2s; }
+  .chip.sel { background: #1a56db; color: #fff; border-color: #1a56db; }
+  input, textarea { width: 100%; border: 1.5px solid #e2ddd4; border-radius: 12px; padding: 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; resize: none; background: #faf9f5; outline: none; color: #1a1a1a; }
+  .btn-main { width: 100%; padding: 16px; background: #1a56db; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; margin-top: 4px; }
+  .btn-main:disabled { background: #aaa; cursor: not-allowed; }
+  .tab-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+  .tab { flex: 1; padding: 10px; border: 1.5px solid #d8d3c8; border-radius: 12px; background: transparent; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; color: #4a4a3a; }
+  .tab.active { background: #1a56db; color: #fff; border-color: #1a56db; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
+  .cal-day { background: #fff; border: 1px solid #e2ddd4; border-radius: 12px; padding: 8px 6px; cursor: pointer; min-height: 80px; transition: border-color 0.15s; }
+  .cal-day.active { border-color: #1a56db; border-width: 2px; }
+  .cal-day-name { font-size: 10px; font-weight: 500; color: #1a56db; text-transform: uppercase; margin-bottom: 4px; }
+  .cal-day-preview { font-size: 10px; color: #9a9688; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+  .post-detail { background: #fff; border-radius: 20px; padding: 1.25rem 1.5rem; margin-bottom: 12px; border: 1px solid #e2ddd4; }
+  .post-day-label { font-size: 11px; font-weight: 500; color: #1a56db; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .post-text { font-size: 14px; color: #1a1a1a; line-height: 1.7; white-space: pre-wrap; margin-bottom: 10px; }
+  .story-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #e8f0fe; color: #1a56db; margin-bottom: 8px; }
+  .story-text { font-size: 13px; color: #6b7aa0; line-height: 1.6; white-space: pre-wrap; margin-bottom: 10px; font-style: italic; }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .action-btn { padding: 7px 14px; border: 1.5px solid #d8d3c8; border-radius: 10px; background: transparent; font-size: 12px; cursor: pointer; color: #6b7aa0; font-family: 'DM Sans', sans-serif; }
+  .loading { text-align: center; padding: 2rem; color: #6b7aa0; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #1a56db; margin: 0 3px; animation: b 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes b { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat { background: #fff; border-radius: 14px; padding: 1rem; text-align: center; border: 1px solid #e2ddd4; }
+  .stat-val { font-size: 22px; font-weight: 600; color: #1a56db; font-family: 'Playfair Display', serif; }
+  .stat-lbl { font-size: 11px; color: #9a9688; margin-top: 4px; text-transform: uppercase; }
+  .paywall { background: #fff; border-radius: 20px; padding: 2rem 1.5rem; text-align: center; border: 1px solid #e2ddd4; }
+  .paywall h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: #1e3a6e; margin-bottom: 8px; }
+  .paywall p { font-size: 14px; color: #6b7aa0; margin-bottom: 1.5rem; line-height: 1.6; }
+  .btn-upgrade { display: block; width: 100%; padding: 16px; background: #1a56db; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; text-decoration: none; text-align: center; }
+  .counter { text-align: center; font-size: 13px; color: #6b7aa0; margin-bottom: 10px; }
+  .hidden { display: none; }
+  .divider { height: 1px; background: #e2ddd4; margin: 4px 0 12px; }
+  .lista-post { background: #fff; border-radius: 20px; padding: 1.25rem 1.5rem; margin-bottom: 10px; border: 1px solid #e2ddd4; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-brand-instagram"></i></div>
+    <h1>ContentFlow</h1>
+  </div>
+  <p class="tagline">Generate 7 ready-to-post social media posts in seconds</p>
+</header>
+<div class="wrap">
+  <div id="setup">
+    <div class="card">
+      <div class="card-label">Business type</div>
+      <div class="chips" id="business">
+        <button class="chip" onclick="sel(this,'business')">Hair salon</button>
+        <button class="chip" onclick="sel(this,'business')">Restaurant</button>
+        <button class="chip" onclick="sel(this,'business')">Personal trainer</button>
+        <button class="chip" onclick="sel(this,'business')">Beauty salon</button>
+        <button class="chip" onclick="sel(this,'business')">Retail shop</button>
+        <button class="chip" onclick="sel(this,'business')">Other</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Business name</div>
+      <input type="text" id="nome" placeholder="e.g. Salon Bella, Pizza Roma..." />
+    </div>
+    <div class="card">
+      <div class="card-label">Weekly theme (optional)</div>
+      <input type="text" id="tema" placeholder="e.g. Summer sale, New menu, Anniversary..." />
+    </div>
+    <div class="card">
+      <div class="card-label">Tone of voice</div>
+      <div class="chips" id="tono">
+        <button class="chip" onclick="sel(this,'tono')">Professional</button>
+        <button class="chip" onclick="sel(this,'tono')">Friendly</button>
+        <button class="chip" onclick="sel(this,'tono')">Fun</button>
+        <button class="chip" onclick="sel(this,'tono')">Motivational</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Platform</div>
+      <div class="chips" id="social">
+        <button class="chip" onclick="sel(this,'social')">Instagram</button>
+        <button class="chip" onclick="sel(this,'social')">Facebook</button>
+        <button class="chip" onclick="sel(this,'social')">TikTok</button>
+        <button class="chip" onclick="sel(this,'social')">LinkedIn</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Language</div>
+      <div class="chips" id="lingua">
+        <button class="chip sel" onclick="sel(this,'lingua')">English</button>
+        <button class="chip" onclick="sel(this,'lingua')">Dutch</button>
+        <button class="chip" onclick="sel(this,'lingua')">Italian</button>
+        <button class="chip" onclick="sel(this,'lingua')">French</button>
+        <button class="chip" onclick="sel(this,'lingua')">Spanish</button>
+      </div>
+    </div>
+    <div class="counter">Free weeks remaining: <strong id="free-counter" style="color:#1a56db;">1</strong> / 1</div>
+    <div class="divider"></div>
+    <button class="btn-main" onclick="genera()" id="btn">Generate 7 posts + Stories</button>
+  </div>
+
+  <div id="loading" class="hidden">
+    <div class="loading">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <p style="margin-top:12px;font-size:14px;">Generating your personalised posts and Stories...</p>
+    </div>
+  </div>
+
+  <div id="result" class="hidden">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val">7</div><div class="stat-lbl">Posts</div></div>
+      <div class="stat"><div class="stat-val">7</div><div class="stat-lbl">Stories</div></div>
+      <div class="stat"><div class="stat-val" id="stat-tema">—</div><div class="stat-lbl">Theme</div></div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab active" onclick="showTab('calendario',this)">Calendar</button>
+      <button class="tab" onclick="showTab('lista',this)">All posts</button>
+    </div>
+    <div id="tab-calendario">
+      <div class="cal-grid" id="cal-grid"></div>
+      <div id="post-detail"></div>
+    </div>
+    <div id="tab-lista" class="hidden">
+      <div id="lista-posts"></div>
+    </div>
+    <button onclick="reset()" style="width:100%;padding:12px;border:1.5px solid #d8d3c8;border-radius:12px;background:transparent;font-size:14px;cursor:pointer;color:#6b7aa0;font-family:'DM Sans',sans-serif;margin-top:4px;">New week</button>
+  </div>
+
+  <div id="paywall" class="hidden">
+    <div class="paywall">
+      <i class="ti ti-lock" style="font-size:40px;color:#1a56db;margin-bottom:1rem;display:block;"></i>
+      <h2>Your free week is over</h2>
+      <p>Keep generating unlimited posts, Stories, visual calendar and custom weekly themes for your business.</p>
+      <a href="https://buy.stripe.com/test_14A3coe4tgoE4VqcKhcjS01" class="btn-upgrade">Subscribe for €15/month</a>
+      <p style="font-size:12px;color:#bbb;margin-top:12px;">Cancel anytime</p>
+    </div>
+  </div>
+</div>
+
+<script>
+var scelte = { business: '', tono: '', social: '', lingua: 'English' };
+var postsData = [];
+
+function sel(el, g) {
+  el.closest('.chips').querySelectorAll('.chip').forEach(function(c) { c.classList.remove('sel'); });
+  el.classList.add('sel');
+  scelte[g] = el.textContent;
+}
+
+function showTab(name, el) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('tab-calendario').classList.toggle('hidden', name !== 'calendario');
+  document.getElementById('tab-lista').classList.toggle('hidden', name !== 'lista');
+}
+
+function getUsati() { return parseInt(localStorage.getItem('contentflowUsati') || '0'); }
+
+function aggiornaCounter() {
+  var rimasti = Math.max(0, 1 - getUsati());
+  document.getElementById('free-counter').textContent = rimasti;
+}
+
+aggiornaCounter();
+
+function genera() {
+  var usati = getUsati();
+  if (usati >= 1) {
+    document.getElementById('setup').classList.add('hidden');
+    document.getElementById('paywall').classList.remove('hidden');
+    return;
+  }
+  var nome = document.getElementById('nome').value.trim() || 'my business';
+  var tema = document.getElementById('tema').value.trim();
+  var business = scelte.business || 'business';
+  var tono = scelte.tono || 'friendly';
+  var social = scelte.social || 'Instagram';
+  var lingua = scelte.lingua || 'English';
+
+  document.getElementById('setup').classList.add('hidden');
+  document.getElementById('loading').classList.remove('hidden');
+  document.getElementById('stat-tema').textContent = tema ? tema.substring(0, 6) : 'Gen';
+
+  var prompt = 'Create 7 social media posts for a ' + business + ' called "' + nome + '".' + (tema ? ' Weekly theme: ' + tema + '.' : '') + ' Tone: ' + tono + '. Platform: ' + social + '. Language: ' + lingua + '. Each post must include emojis and hashtags. Also create a short Story (max 3 lines) for each day. Reply ONLY with valid JSON, no extra text. Format: [{"giorno":"Mon","post":"full post text with emojis and hashtags","story":"short story text"}]';
+
+  fetch('/.netlify/functions/menu', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    var text = data.content.map(function(b) { return b.text || ''; }).join('');
+    postsData = JSON.parse(text.replace(/```json|```/g, '').trim());
+    localStorage.setItem('contentflowUsati', usati + 1);
+    aggiornaCounter();
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('result').classList.remove('hidden');
+    renderCalendario();
+    renderLista();
+    mostraDettaglio(0);
+  })
+  .catch(function() {
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('setup').classList.remove('hidden');
+    alert('Error. Please try again!');
+  });
+}
+
+function renderCalendario() {
+  var html = '';
+  postsData.forEach(function(p, i) {
+    html += '<div class="cal-day" id="cal' + i + '" onclick="mostraDettaglio(' + i + ')">';
+    html += '<div class="cal-day-name">' + p.giorno + '</div>';
+    html += '<div class="cal-day-preview">' + p.post.substring(0, 60) + '...</div>';
+    html += '</div>';
+  });
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+function renderLista() {
+  var html = '';
+  postsData.forEach(function(p, i) {
+    html += '<div class="lista-post">';
+    html += '<div class="post-day-label">' + p.giorno + '</div>';
+    html += '<div class="post-text">' + p.post + '</div>';
+    html += '<div class="story-badge">Story</div>';
+    html += '<div class="story-text">' + (p.story || '') + '</div>';
+    html += '<div class="action-row">';
+    html += '<button class="action-btn" onclick="copia(' + i + ',\'post\')"><i class="ti ti-copy"></i> Copy post</button>';
+    html += '<button class="action-btn" onclick="copia(' + i + ',\'story\')"><i class="ti ti-copy"></i> Copy story</button>';
+    html += '<button class="action-btn" onclick="rigenera(' + i + ')"><i class="ti ti-refresh"></i> Regenerate</button>';
+    html += '</div></div>';
+  });
+  document.getElementById('lista-posts').innerHTML = html;
+}
+
+function mostraDettaglio(i) {
+  document.querySelectorAll('.cal-day').forEach(function(d) { d.classList.remove('active'); });
+  var calDay = document.getElementById('cal' + i);
+  if (calDay) calDay.classList.add('active');
+  var p = postsData[i];
+  var html = '<div class="post-detail">';
+  html += '<div class="post-day-label">' + p.giorno + '</div>';
+  html += '<div class="post-text">' + p.post + '</div>';
+  html += '<div class="story-badge">Story</div>';
+  html += '<div class="story-text">' + (p.story || '') + '</div>';
+  html += '<div class="action-row">';
+  html += '<button class="action-btn" onclick="copia(' + i + ',\'post\')"><i class="ti ti-copy"></i> Copy post</button>';
+  html += '<button class="action-btn" onclick="copia(' + i + ',\'story\')"><i class="ti ti-copy"></i> Copy story</button>';
+  html += '<button class="action-btn" onclick="rigenera(' + i + ')"><i class="ti ti-refresh"></i> Regenerate</button>';
+  html += '</div></div>';
+  document.getElementById('post-detail').innerHTML = html;
+}
+
+function copia(i, tipo) {
+  var text = tipo === 'post' ? postsData[i].post : postsData[i].story;
+  navigator.clipboard.writeText(text);
+  var btn = event.target.closest('button');
+  var orig = btn.innerHTML;
+  btn.textContent = 'Copied!';
+  setTimeout(function() { btn.innerHTML = orig; }, 2000);
+}
+
+function rigenera(i) {
+  var btn = event.target.closest('button');
+  btn.textContent = '...';
+  var p = postsData[i];
+  var prompt = 'Create ONE alternative post for ' + p.giorno + ' with a ' + (scelte.tono || 'friendly') + ' tone, with emojis and hashtags, in ' + (scelte.lingua || 'English') + '. Reply ONLY with valid JSON: {"post":"...","story":"..."}';
+  fetch('/.netlify/functions/menu', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    var text = data.content.map(function(b) { return b.text || ''; }).join('');
+    var nuovo = JSON.parse(text.replace(/```json|```/g, '').trim());
+    postsData[i].post = nuovo.post;
+    postsData[i].story = nuovo.story;
+    renderCalendario();
+    renderLista();
+    mostraDettaglio(i);
+  })
+  .catch(function() { btn.innerHTML = '<i class="ti ti-refresh"></i> Regenerate'; });
+}
+
+function reset() {
+  var usati = getUsati();
+  if (usati >= 1) {
+    document.getElementById('result').classList.add('hidden');
+    document.getElementById('paywall').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('setup').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
