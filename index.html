@@ -76,7 +76,7 @@
         <button class="chip" onclick="sel(this,'business')">Personal trainer</button>
         <button class="chip" onclick="sel(this,'business')">Beauty salon</button>
         <button class="chip" onclick="sel(this,'business')">Retail shop</button>
-        <button class="chip" onclick="sel(this,'business')">Other</button>
+        <button class="chip" onclick="sel(this,'business');toggleOther(this)">Other</button> </div> <input type="text" id="other-business" placeholder="Describe your business..." style="display:none;margin-top:8px;" oninput="scelte.business=this.value"> <div class="chips" style="display:none" id="hide-chips">
       </div>
     </div>
     <div class="card">
@@ -159,6 +159,15 @@
 </div>
 
 <script>
+ function toggleOther(el) {
+  var input = document.getElementById('other-business');
+  if (el.classList.contains('sel')) {
+    input.style.display = 'block';
+    input.focus();
+  } else {
+    input.style.display = 'none';
+  }
+}
 var scelte = { business: '', tono: '', social: '', lingua: 'English' };
 var postsData = [];
 
