@@ -14,10 +14,10 @@
   .theme-toggle { position: absolute; top: 1.5rem; right: 1rem; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid #d8d3c8; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #4a4a3a; }
   body.dark .theme-toggle { border-color: #3a3d45; color: #e8e8e8; }
   .logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
-  .logo-icon { width: 42px; height: 42px; background: #1a56db; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-  .logo-icon i { font-size: 22px; color: #e8f0fe; }
-  .logo h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #1e3a6e; }
-  body.dark .logo h1 { color: #9db8f0; }
+  .logo-icon { width: 42px; height: 42px; background: D85A30; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .logo-icon i { font-size: 22px; color: #FAECE7; }
+  .logo h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #712B13; }
+  body.dark .logo h1 { color: #F0997B; }
   .tagline { font-size: 14px; color: #6b7aa0; letter-spacing: 0.03em; }
   body.dark .tagline { color: #8b96b0; }
   .wrap { max-width: 580px; margin: 0 auto; padding: 0 1rem 3rem; }
@@ -28,51 +28,51 @@
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { padding: 8px 16px; border-radius: 30px; border: 1.5px solid #d8d3c8; background: transparent; font-size: 13px; font-family: 'DM Sans', sans-serif; color: #4a4a3a; cursor: pointer; transition: all 0.2s; }
   body.dark .chip { border-color: #3a3d45; color: #c8c8c8; }
-  .chip.sel { background: #1a56db; color: #fff; border-color: #1a56db; }
+  .chip.sel { background: D85A30; color: #fff; border-color: D85A30; }
   input, textarea { width: 100%; border: 1.5px solid #e2ddd4; border-radius: 12px; padding: 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; resize: none; background: #faf9f5; outline: none; color: #1a1a1a; }
   body.dark input, body.dark textarea { background: #1c1e24; border-color: #33363d; color: #e8e8e8; }
-  .btn-main { width: 100%; padding: 16px; background: #1a56db; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; margin-top: 4px; }
+  .btn-main { width: 100%; padding: 16px; background: D85A30; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; margin-top: 4px; }
   .btn-main:disabled { background: #aaa; cursor: not-allowed; }
   .tab-bar { display: flex; gap: 8px; margin-bottom: 12px; }
   .tab { flex: 1; padding: 10px; border: 1.5px solid #d8d3c8; border-radius: 12px; background: transparent; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; color: #4a4a3a; }
   body.dark .tab { border-color: #3a3d45; color: #c8c8c8; }
-  .tab.active { background: #1a56db; color: #fff; border-color: #1a56db; }
+  .tab.active { background: D85A30; color: #fff; border-color: D85A30; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
   .cal-day { background: #fff; border: 1px solid #e2ddd4; border-radius: 12px; padding: 8px 6px; cursor: pointer; min-height: 80px; transition: border-color 0.15s; }
   body.dark .cal-day { background: #22252b; border-color: #33363d; }
-  .cal-day.active { border-color: #1a56db; border-width: 2px; }
-  .cal-day-name { font-size: 10px; font-weight: 500; color: #1a56db; text-transform: uppercase; margin-bottom: 4px; }
+  .cal-day.active { border-color: D85A30; border-width: 2px; }
+  .cal-day-name { font-size: 10px; font-weight: 500; color: D85A30; text-transform: uppercase; margin-bottom: 4px; }
   .cal-day-preview { font-size: 10px; color: #9a9688; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
   body.dark .cal-day-preview { color: #7a7e88; }
   .post-detail { background: #fff; border-radius: 20px; padding: 1.25rem 1.5rem; margin-bottom: 12px; border: 1px solid #e2ddd4; }
   body.dark .post-detail { background: #22252b; border-color: #33363d; }
-  .post-day-label { font-size: 11px; font-weight: 500; color: #1a56db; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .post-day-label { font-size: 11px; font-weight: 500; color: D85A30; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
   .post-text { font-size: 14px; color: #1a1a1a; line-height: 1.7; white-space: pre-wrap; margin-bottom: 10px; }
   body.dark .post-text { color: #e8e8e8; }
-  .story-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #e8f0fe; color: #1a56db; margin-bottom: 8px; }
-  body.dark .story-badge { background: #1c2d4d; color: #9db8f0; }
+  .story-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #FAECE7; color: D85A30; margin-bottom: 8px; }
+  body.dark .story-badge { background: #4A1B0C; color: #F0997B; }
   .story-text { font-size: 13px; color: #6b7aa0; line-height: 1.6; white-space: pre-wrap; margin-bottom: 10px; font-style: italic; }
   body.dark .story-text { color: #8b96b0; }
   .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .action-btn { padding: 7px 14px; border: 1.5px solid #d8d3c8; border-radius: 10px; background: transparent; font-size: 12px; cursor: pointer; color: #6b7aa0; font-family: 'DM Sans', sans-serif; }
   body.dark .action-btn { border-color: #3a3d45; color: #c8c8c8; }
   .loading { text-align: center; padding: 2rem; color: #6b7aa0; }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #1a56db; margin: 0 3px; animation: b 1.2s infinite; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: D85A30; margin: 0 3px; animation: b 1.2s infinite; }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes b { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }
   .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
   .stat { background: #fff; border-radius: 14px; padding: 1rem; text-align: center; border: 1px solid #e2ddd4; }
   body.dark .stat { background: #22252b; border-color: #33363d; }
-  .stat-val { font-size: 22px; font-weight: 600; color: #1a56db; font-family: 'Playfair Display', serif; }
+  .stat-val { font-size: 22px; font-weight: 600; color: D85A30; font-family: 'Playfair Display', serif; }
   .stat-lbl { font-size: 11px; color: #9a9688; margin-top: 4px; text-transform: uppercase; }
   body.dark .stat-lbl { color: #7a7e88; }
   .paywall { background: #fff; border-radius: 20px; padding: 2rem 1.5rem; text-align: center; border: 1px solid #e2ddd4; }
   body.dark .paywall { background: #22252b; border-color: #33363d; }
-  .paywall h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: #1e3a6e; margin-bottom: 8px; }
-  body.dark .paywall h2 { color: #9db8f0; }
+  .paywall h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: #712B13; margin-bottom: 8px; }
+  body.dark .paywall h2 { color: #F0997B; }
   .paywall p { font-size: 14px; color: #6b7aa0; margin-bottom: 1.5rem; line-height: 1.6; }
-  .btn-upgrade { display: block; width: 100%; padding: 16px; background: #1a56db; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; text-decoration: none; text-align: center; }
+  .btn-upgrade { display: block; width: 100%; padding: 16px; background: D85A30; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-family: 'Playfair Display', serif; cursor: pointer; text-decoration: none; text-align: center; }
   .counter { text-align: center; font-size: 13px; color: #6b7aa0; margin-bottom: 10px; }
   body.dark .counter { color: #8b96b0; }
   .hidden { display: none; }
@@ -141,7 +141,7 @@
         <button class="chip" onclick="sel(this,'lingua')">Spanish</button>
       </div>
     </div>
-    <div class="counter">Free weeks remaining: <strong id="free-counter" style="color:#1a56db;">1</strong> / 1</div>
+    <div class="counter">Free weeks remaining: <strong id="free-counter" style="color:D85A30;">1</strong> / 1</div>
     <div class="divider"></div>
     <button class="btn-main" onclick="genera()" id="btn">Generate 7 posts + Stories</button>
   </div>
@@ -175,7 +175,7 @@
 
   <div id="paywall" class="hidden">
     <div class="paywall">
-      <i class="ti ti-lock" style="font-size:40px;color:#1a56db;margin-bottom:1rem;display:block;"></i>
+      <i class="ti ti-lock" style="font-size:40px;color:D85A30;margin-bottom:1rem;display:block;"></i>
       <h2>Your free week is over</h2>
       <p>Keep generating unlimited posts, Stories, visual calendar and custom weekly themes for your business.</p>
       <a href="https://buy.stripe.com/test_fZu28kbWl1tK4Vq8u1cjS02" class="btn-upgrade">Start for €7/month — Early bird price 🎉</a>
@@ -208,7 +208,7 @@ function toggleTheme() {
   }
 }
 
-if (localStorage.getItem('theme') === 'dark') {
+if (localStorage.getItem('theme') !== 'light') {
   document.body.classList.add('dark');
   document.getElementById('theme-icon').className = 'ti ti-sun';
 }
